@@ -1,3 +1,23 @@
+-- Main schema reference file for busboyPOS
+-- This file is kept for reference purposes only.
+-- Actual schema changes should be done through migrations.
+
+-- To apply schema updates, use:
+--   npm run db:migrate      (Apply migrations only)
+--   npm run db:safe-migrate (Create backup and apply migrations)
+
+-- To create a new migration:
+--   npm run db:new-migration [migration_name]
+
+-- For a full description of the schema and migration system,
+-- see the README.md file.
+
+-- Include the migration files in order
+\i migrations/00_metadata.sql
+\i migrations/01_initial_schema.sql 
+\i migrations/02_add_reservations.sql
+-- Add additional migration files here as they are created
+
 -- Supabase RLS schema for busboyPOS
 
 -- Enable PostgreSQL extensions

@@ -330,15 +330,134 @@ export interface Database {
           updated_at?: string
         }
       }
+      reservations: {
+        Row: {
+          id: string
+          restaurant_id: string
+          customer_id: string | null
+          table_id: string | null
+          reservation_date: string
+          start_time: string
+          end_time: string
+          party_size: number
+          status: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+          notes: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          restaurant_id: string
+          customer_id?: string | null
+          table_id?: string | null
+          reservation_date: string
+          start_time: string
+          end_time: string
+          party_size: number
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          restaurant_id?: string
+          customer_id?: string | null
+          table_id?: string | null
+          reservation_date?: string
+          start_time?: string
+          end_time?: string
+          party_size?: number
+          status?: 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'no_show'
+          notes?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
-      [_ in never]: never
+      menu_items_with_categories: {
+        Row: {
+          id: string
+          item_name: string
+          item_description: string | null
+          price: number
+          item_image: string | null
+          available: boolean
+          category_id: string
+          category_name: string
+          restaurant_id: string
+        }
+      }
+      orders_with_items: {
+        Row: {
+          order_id: string
+          restaurant_id: string
+          table_id: string
+          status: string
+          total_amount: number
+          created_at: string
+          table_number: string
+          order_item_id: string
+          menu_item_id: string
+          item_name: string
+          quantity: number
+          subtotal: number
+          special_instructions: string | null
+        }
+      }
+      active_reservations: {
+        Row: {
+          id: string
+          restaurant_id: string
+          reservation_date: string
+          start_time: string
+          end_time: string
+          party_size: number
+          status: 'pending' | 'confirmed'
+          notes: string | null
+          table_id: string | null
+          table_number: string | null
+          capacity: number | null
+          customer_id: string | null
+          customer_name: string | null
+          customer_email: string | null
+          customer_phone: string | null
+        }
+      }
     }
     Functions: {
-      [_ in never]: never
+      is_platform_admin: {
+        Args: Record<string, never>
+        Returns: boolean
+      }
+      is_restaurant_admin: {
+        Args: { restaurant_id: string }
+        Returns: boolean
+      }
+      is_kitchen_staff: {
+        Args: { restaurant_id: string }
+        Returns: boolean
+      }
+      get_user_restaurant_id: {
+        Args: Record<string, never>
+        Returns: string
+      }
+      has_migration_been_applied: {
+        Args: { migration_version: string }
+        Returns: boolean
+      }
+      record_migration: {
+        Args: { 
+          migration_version: string 
+          migration_name: string
+          migration_description?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      // Add any enums here if needed
     }
     CompositeTypes: {
       [_ in never]: never
