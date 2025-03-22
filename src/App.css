@@ -1,0 +1,104 @@
+/* App specific styles that shouldn't be in a component */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Toast notification styles */
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  z-index: 50;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.toast-success {
+  background-color: #10B981;
+  color: white;
+}
+
+.toast-error {
+  background-color: #EF4444;
+  color: white;
+}
+
+.toast-warning {
+  background-color: #F59E0B;
+  color: white;
+}
+
+/* QR code scanner overlay */
+.qr-scanner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.qr-scanner-container {
+  width: 80%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.qr-scanner-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 9999px;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Payment form styles */
+.payment-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.stripe-element {
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  background-color: white;
+  margin-bottom: 1rem;
+} 
