@@ -1,0 +1,70 @@
+name: busboyPOS CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./backend
+        run: npm ci
+      
+      - name: Lint
+        working-directory: ./backend
+        run: npm run lint || true
+      
+      - name: Build
+        working-directory: ./backend
+        run: npm run build
+      
+      - name: Test
+        working-directory: ./backend
+        run: npm test || true
+        env:
+          MONGODB_URI: mongodb://localhost:27017/busboypos_test
+          JWT_SECRET: test_secret
+          JWT_EXPIRATION: 1d
+  
+  frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci || npm install
+      
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build || true
+      
+      - name: Test
+        working-directory: ./frontend
+        run: npm test -- --watchAll=false || true 

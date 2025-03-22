@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Backend API service
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: busboypos-api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/busboypos
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - busboypos-network
+
+  # MongoDB service
+  mongodb:
+    image: mongo:latest
+    container_name: busboypos-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - busboypos-network
+
+  # Redis service
+  redis:
+    image: redis:alpine
+    container_name: busboypos-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - busboypos-network
+
+  # Frontend service (web)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: busboypos-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api/v1
+    depends_on:
+      - api
+    networks:
+      - busboypos-network
+
+networks:
+  busboypos-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+  redis-data: 
